@@ -1,0 +1,24 @@
+CHIP PC {
+    IN in[16],load,inc,reset;
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    // There are 4 input options for the program counter:
+    // - Previous PC value,
+    // - Incremented value,
+    // - Input value,
+    // - Reset to all-zeros.
+    // Use the loop value to create incremented program counter.
+    Inc16(in=loop, out=PlusOne);
+    // If statements are processed in reverse order to keep precedence.
+    // Use inc bit to select between loope or incremented value.
+    Mux16(a=loop, b=PlusOne, sel=inc, out=IncPC);
+    // Use load bit to push input value to output.
+    Mux16(a=IncPC, b=in, sel=load, out=LoadPC);
+    // Use reset bit to push all-zeros to output.
+    Mux16(a=LoadPC, b=false, sel=reset, out=ResetPC);
+    // Register is used to store the value.
+    // Load is set to true therefore every cycle loads the selected value.
+    Register(in=ResetPC, load=true, out=out, out=loop);
+}
