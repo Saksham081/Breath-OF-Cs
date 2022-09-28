@@ -1,0 +1,13 @@
+CHIP Bit {
+    IN in, load;
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+    // Use load input to select between:
+    // - Previous value (loop),
+    // - Current input value (in).
+    Mux(a=loop, b=in, sel=load, out=MuxOut);
+    // Use Data Flip-Flop to store the output value.
+    DFF(in=MuxOut, out=out, out=loop);
+}
